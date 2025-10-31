@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import API from '../api/api';
 import { Edit, Delete } from "@mui/icons-material";
+import { globals } from "../utils/globals";
 // import EditModal from "./modals/EditModal";
 
 export default function AllEvents() {
@@ -24,21 +25,19 @@ export default function AllEvents() {
   // const [eventFields, setEventFields] = useState([]);
 
   useEffect(() => {
-    fetchData()
+    // fetchData()
+    fetchEvents();
   }, []);
 
-  const fetchData = async () => {
-    fetchEvents();
-  }
+  // const fetchData = async () => {
+    
+  // }
 
-  const endpoint = `${process.env.REACT_APP_API_URL}/api/events`
-  // const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const fetchEvents = async () => {
-    console.log("fetching events", endpoint)
     const res = await API.get('/events');
     console.log("res", res);
-    // const data = await res.json();
     const data = res.data;
     console.log("data", data);
     setEvents(res.data);
@@ -55,10 +54,10 @@ export default function AllEvents() {
           <TableHead sx={{ backgroundColor: "primary.main" }}>
             <TableRow>
               <TableCell sx={{ color: "white" }}>ID</TableCell>
-              <TableCell sx={{ color: "white" }}>Name</TableCell>
-              <TableCell sx={{ color: "white" }}>Credits</TableCell>
-              <TableCell sx={{ color: "white" }}>Total Enrolled</TableCell>
-              <TableCell sx={{ color: "white" }}>Enrollment Limit</TableCell>
+              <TableCell sx={{ color: "white" }}>Event Name</TableCell>
+              <TableCell sx={{ color: "white" }}>Event Date</TableCell>
+              <TableCell sx={{ color: "white" }}>Location</TableCell>
+              <TableCell sx={{ color: "white" }}>Price</TableCell>
               <TableCell sx={{ color: "white" }}>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -81,7 +80,12 @@ export default function AllEvents() {
                     <Edit />
                   </IconButton>
                   <IconButton color="error" 
-                  // onClick={() => handleDeleteOpen(event.id)}
+                  onClick={() => 
+                    {
+                      console.log("delete button clicked, event id", event.id);
+                      globals.handleDeleteEvent(event.id);
+                      fetchEvents();
+                    }}
                   >
                     <Delete />
                   </IconButton>
@@ -98,13 +102,7 @@ export default function AllEvents() {
         </Box>
       )}
 
-      {/* <DeleteEventModal
-        open={isDeleteOpen}
-        event={events[selectedEvent-1]}
-        onClose={() => setIsDeleteOpen(false)}
-        onConfirm={handleDeleteConfirm}
-      />
-
+      {/* 
       {selectedEvent && (
         <EditModal
           isOpen={!!selectedEvent}

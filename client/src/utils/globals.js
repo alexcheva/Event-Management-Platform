@@ -19,10 +19,8 @@ export const globals = {
   async handleDeleteEvent(id) {
     console.log("delete event id", id)
     if (!window.confirm("Are you sure you want to delete this event?")) return;
-    const res = await fetch(`${API}events/${id}`, { method: "DELETE" });
+    const res = await API.delete(`/events/${id}`);
     console.log(res);
-    // navigate to login 
-    // handleLogout
   },
 
   async handleDeleteUser(id) {
@@ -30,10 +28,7 @@ export const globals = {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     console.log("nahdleDeleteUser confirmed")
     const res = await API.delete(`/users/${id}`);
-    // const res = await fetch(`${API}users/${id}`, { method: "DELETE" });
     console.log(res);
-    // navigate to login 
-    // handleLogout
   },
 
   // Add an event
