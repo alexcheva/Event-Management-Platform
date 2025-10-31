@@ -39,7 +39,9 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
+    console.log("deleteUser is called")
     const result = await User.delete(req.params.id);
+    console.log("result", result)
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });

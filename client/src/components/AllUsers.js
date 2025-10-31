@@ -91,7 +91,7 @@ export default function AllUsers() {
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => {
-                    console.log("edit button clicked", user);
+                    console.log("edit button clicked", user.id);
                     // setSelectedUser(user);
                     }}>
                     <Edit />
@@ -99,7 +99,8 @@ export default function AllUsers() {
                   <IconButton color="error" onClick={() => 
                     {
                       console.log("delete button clicked", user.id);
-                      // handleDeleteUser(user.id);
+                      globals.handleDeleteUser(user.id);
+                      fetchUsers();
                     }
                     }>
                     <Delete />
