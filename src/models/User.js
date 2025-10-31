@@ -2,6 +2,16 @@ import { pool } from '../db.js';
 import bcrypt from 'bcryptjs';
 
 export class User {
+  static async getAll() {
+    const result = await pool.query('SELECT * FROM users ORDER BY id');
+    return result.rows;
+  }
+
+  static async getById(id) {
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    return result.rows[0];
+  }
+
   static async create({ name, email, password, role }) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
@@ -9,6 +19,20 @@ export class User {
       [name, email, hashedPassword, role || 'attendee']
     );
     return result.rows[0];
+  }
+
+  static async update(id, { name, email, password, role }) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      'UPDATE events SET name=$1, email=$2, password=$3, role=$4 WHERE id=$5 RETURNING *',
+      [name, email, hashedPassword, role, id]
+    );
+    return result.rows[0];
+  }
+
+  static async delete(id) {
+    await pool.query('DELETE FROM events WHERE id=$1', [id]);
+    return { message: 'Event deleted' };
   }
 
   static async findByEmail(email) {
