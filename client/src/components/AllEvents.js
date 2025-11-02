@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import {
   Button,
   Table,
@@ -11,10 +12,10 @@ import {
   IconButton,
   Typography,
   Box,
-  Container,
+  Container
 } from "@mui/material";
 import API from '../api/api';
-import { Edit, Delete } from "@mui/icons-material";
+import { Add, Edit, Delete } from "@mui/icons-material";
 import { globals } from "../utils/globals";
 // import EditModal from "./modals/EditModal";
 
@@ -48,7 +49,14 @@ export default function AllEvents() {
       <Typography variant="h5" gutterBottom>
         All Events
       </Typography>
-
+        <Button variant="contained" color="primary" sx={{ mb: 3 }} 
+        onClick={
+          () => console.log("add event button clicked")
+          }
+          component={Link} to="/add-event"
+          >
+          <Add />Add Event
+        </Button>
       <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
         <Table>
           <TableHead sx={{ backgroundColor: "primary.main" }}>

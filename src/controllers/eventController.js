@@ -20,6 +20,7 @@ export const getEventById = async (req, res) => {
 };
 
 export const createEvent = async (req, res) => {
+  console.log("createEvent called req", req.body)
   try {
     const event = await Event.create(req.body);
     res.status(201).json(event);

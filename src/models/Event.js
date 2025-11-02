@@ -11,10 +11,12 @@ export class Event {
     return result.rows[0];
   }
 
-  static async create({ name, date, location, price }) {
+  static async create({ name, date, location, price, created_by, description, start_time, end_time }) {
+    console.log("create Event called")
+
     const result = await pool.query(
-      'INSERT INTO events (name, date, location, price) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, date, location, price]
+      'INSERT INTO events (name, date, location, price, created_by, description, start_time, end_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [ name, date, location, price, created_by, description, start_time, end_time]
     );
     return result.rows[0];
   }

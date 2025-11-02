@@ -22,7 +22,7 @@ import API from '../api/api';
 // import { roles } from "../utils/globals";
 
 export default function AllUsers() {
-  const endpoint = `${process.env.REACT_APP_API_URL}/api/users`
+  // const endpoint = `${process.env.REACT_APP_API_URL}/api/users`
   const [users, setUsers] = useState([]);
   // const [selectedUser, setSelectedUser] = useState(null);
   // const [openUserModal, setOpenUserModal] = useState(false);
@@ -38,7 +38,7 @@ export default function AllUsers() {
   // console.log("selectedUser", selectedUser);
 
   const fetchUsers = async () => {
-    console.log("fetching users", endpoint)
+    // console.log("fetching users", endpoint)
     const res = await API.get('/users');
     console.log("res", res);
     // const data = await res.json();
