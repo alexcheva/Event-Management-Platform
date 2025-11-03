@@ -1,6 +1,7 @@
 import { Box, Typography, } from "@mui/material";
 import AllEvents from "../components/AllEvents";
 import AllUsers from "../components/AllUsers";
+import ShowTickets from "../components/ShowTickets";
 // import AtendeeDashboard from '../components/AtendeeDashboard';
 // import OrganizerDashboard from '../components/OrganizerDashboard';
 // import AdminDashboard from '../components/AdminDashboard';
@@ -18,6 +19,7 @@ export default function Dashboard() {
       </Typography> */}
       <AllEvents />
       <AllUsers />
+      <ShowTickets />
 
       
       {/* <Box sx={{ p: 2 }}>

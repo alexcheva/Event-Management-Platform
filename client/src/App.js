@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import AddEvent from './components/AddEvent';
 import AllEvents from './components/AllEvents';
 import AllUsers from './components/AllUsers';
+import ShowTickets from './components/ShowTickets';
 import Navbar from './components/Navbar';
 import EventPage from './pages/EventPage';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/events" element={<AllEvents />} />
         <Route path="/add-event" element={<AddEvent />} />
         <Route path="/event/:id" element={<EventPage />} />
+        <Route path="/tickets" element={<ShowTickets />} />
         {/* Events separate page */}
       </Routes>
     </BrowserRouter>

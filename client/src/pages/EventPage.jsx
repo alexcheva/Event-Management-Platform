@@ -1,18 +1,24 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Typography, Card, CardContent, Chip, Button, Divider, Stack } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import dayjs from "dayjs";
 import API from "../api/api";
+import { AuthContext } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 const EventPage = () => {
+  dayjs.extend(customParseFormat);
+  const { notify } = useNotification();
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   console.log(id);
   const location = useLocation();
   const [event, setEvent] = useState(location.state || null);
+  const [ticketTypes, setTicketTypes] = useState([]);
   const formatDate = (d) => dayjs(d).format("MMM D, YYYY"); 
   const formatTime = (t) => dayjs(t, "HH:mm:ss").format("h:mm A");
 
@@ -24,9 +30,30 @@ const EventPage = () => {
     setEvent(res.data);
   };
 
+  const fetchTicketTypes = async () => {
+    const res = await API.get(`/tickets/${id}/ticket-types`);
+    console.log("res", res);
+    const data = res.data;
+    console.log("data", data);
+    setTicketTypes(res.data);
+  };
+
+
+  const handleBuy = async (ticketTypeId) => {
+    await API.post(`tickets/${id}/purchase/${ticketTypeId}`, {
+      event_id: event.id,
+      ticket_type_id: ticketTypeId,
+      user_id: user.id
+    });
+
+    notify("Ticket Purchased!");
+  };
+
   useEffect(() => {
-      fetchEvent();
-}, [id]);
+    fetchEvent();
+    fetchTicketTypes();
+  }, [id]);
+
 
   if (!event) return <div>Loading...</div>;
 
@@ -64,8 +91,19 @@ const EventPage = () => {
           </Stack>
 
           <Divider sx={{ my: 3 }} />
-
           <Stack direction="row" justifyContent="space-between" alignItems="center">
+          {ticketTypes.map(t => (
+
+            <Button key={t.id} variant="contained"
+              size="large"
+              sx={{ borderRadius: 3, px: 4, mr: 3 }}
+              onClick={() => handleBuy(t.id)}>
+              Buy {t.type} ticket — ${t.price}
+            </Button>
+          ))}
+          </Stack>
+
+          {/* <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Chip
               label={`$${event.price}`}
               color="success"
@@ -80,7 +118,7 @@ const EventPage = () => {
             >
               Register
             </Button>
-          </Stack>
+          </Stack> */}
 
           <Typography variant="caption" display="block" mt={3} textAlign="right">
             {/* TODO Fetch creator name */}
