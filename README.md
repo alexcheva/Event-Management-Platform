@@ -6,47 +6,46 @@ Develop a comprehensive event management system that allows event organizers to 
 Create a scalable web application that streamlines the entire event lifecycle from creation to post-event analytics, supporting multiple event types and user roles.
 
 ## Features: 
-- CRUD operations (Create, Read, Update, Delete).
-- Multi-Role User System: Support for event 
-  - organizers, 
-  - attendees, 
-  - vendors, and 
-  - platform administrators (with role-specific dashboards and permissions)
-- Event Creation and Management: 
+- [x] CRUD operations (Create, Read, Update, Delete).
+- [ ] Multi-Role User System: Support for event 
+  - [ ] organizers, 
+  - [ ] attendees, 
+  - [ ] vendors, and 
+  - [ ] platform administrators (with role-specific dashboards and permissions)
+- [ ] Event Creation and Management: 
 Organizers can create events with:
-  - detailed information, 
-  - set ticket types and pricing, 
-  - manage venue details,
-  - create event schedules, and 
-  - handle speaker/performer management
-- Registration and Ticketing System: 
+  - [x] detailed information, 
+  - [ ] set ticket types and pricing, 
+  - [ ] manage venue details,
+  - [ ] create event schedules, and 
+  - [ ] handle speaker/performer management
+- [ ] Registration and Ticketing System: 
 Attendees can:
- - browse events, 
- - purchase tickets with integrated payment processing,
- - receive QR code tickets
- - and manage their event registrations
-- Real-Time Event Updates: 
- - Live notifications for schedule changes
- - venue updates, and important announcements with support for 
-   - push notifications 
-   - email alerts
-- Check-In and Attendance Tracking: 
-  - QR code scanning system for event entry
-  - real-time attendance monitoring 
-  - and capacity management with 
-  - waitlist functionality
-- Analytics and Reporting Dashboard: 
-   - Comprehensive analytics for organizers: 
-      - including ticket sales, 
-      - attendance patterns, 
-      - revenue tracking
-      - post-event feedback analysis with 
-      - exportable reports
+ - [ ] browse events, 
+ - [ ] purchase tickets with integrated payment processing,
+ - [ ] receive QR code tickets
+ - [ ] and manage their event registrations
+- [ ] Real-Time Event Updates: 
+ - [ ] Live notifications for schedule changes
+ - [ ] venue updates, and important announcements with support for 
+   - [ ] push notifications 
+   - [ ] email alerts
+- [ ] Check-In and Attendance Tracking: 
+  - [ ] QR code scanning system for event entry
+  - [ ] real-time attendance monitoring 
+  - [ ] and capacity management with 
+  - [ ] waitlist functionality
+- [ ] Analytics and Reporting Dashboard: 
+   - [ ] Comprehensive analytics for organizers: 
+      - [ ] including ticket sales, 
+      - [ ] attendance patterns, 
+      - [ ] revenue tracking
+      - [ ] post-event feedback analysis with 
+      - [ ] exportable reports
 
 
 ## [Link to a live project.](https://event-management-platform.onrender.com/)
 ## How to initialize and set up:
-## Quick start (dev)
 ### Prerequisites
 - Node 18+
 - npm
@@ -82,6 +81,7 @@ npm start
 | Package            | Purpose                                                                                                                                        |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | **nodemon**        | Watches for file changes and automatically restarts the server — speeds up development workflow.                                               |
+
 ## Database setup
 ```bash
 psql -U insert_your_username -f database_dump.sql 
@@ -117,8 +117,8 @@ psql -U insert_your_username -f database_dump.sql
 |`GET `|`/api/events/:id/attendees` | organizer-only list
 
 ### Check-in
- | Method   | Endpoint         | Description       |
- | -------- | ---------------- | ----------------- |
+| Method   | Endpoint         | Description       |
+| -------- | ---------------- | ----------------- |
 |`POST` | `/api/checkin/scan` | verify QR code & mark attendance
 | `GET` | `/api/events/:id/attendance` | live attendance metrics
 
@@ -142,7 +142,6 @@ concise summary of at least two included
 - **User** _(id, name, email, role, hashedPassword, settings)_
 
 - **Event** _(id, organizerId, title, description, venueId, startAt, endAt, capacity, status)_
-
 - **Venue** _(id, name, address, capacity, mapLink)_
 
 - **TicketType** _(id, eventId, name, price, quantity, salesStart, salesEnd)_

@@ -6,6 +6,7 @@ import AddEvent from './components/AddEvent';
 import AllEvents from './components/AllEvents';
 import AllUsers from './components/AllUsers';
 import Navbar from './components/Navbar';
+import EventPage from './pages/EventPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/users" element={<AllUsers />} />
         <Route path="/events" element={<AllEvents />} />
         <Route path="/add-event" element={<AddEvent />} />
+        <Route path="/event/:id" element={<EventPage />} />
         {/* Events separate page */}
       </Routes>
     </BrowserRouter>

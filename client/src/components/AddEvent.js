@@ -9,9 +9,10 @@ import dayjs from "dayjs";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import Notification from "./Notification";
-
+import { useNotification } from "../context/NotificationContext";
 const AddEvent = () => {
+
+  const { notify } = useNotification();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -21,18 +22,9 @@ const AddEvent = () => {
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
   const [endTime, setEndTime] = useState(dayjs());
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // name, 
-    // date, 
-    // location, 
-    // price, 
-    // created_by, 
-    // description, 
-    // start_time, 
-    // end_time
 
     const payload = {
       name: title,
@@ -48,13 +40,15 @@ const AddEvent = () => {
     console.log("handle submit called", payload)
     try {
       await API.post(`/events`, payload, { withCredentials: true });
-      setSnackbar({ open: true, message: "Event created", severity: "success" });
-      alert("Event created");
+      notify("Event created successfully!", "success");
+      // alert("Event created");
+
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
-      setSnackbar({ open: true, message: "Error creating event: " + err.response?.data?.message, severity: "error" });
-      // alert("Error creating event");
+      console.log("Error creating event: " + err.response?.data?.message);
+      notify("Failed to create event", "error");
+
     }
   };
 
@@ -121,12 +115,6 @@ const AddEvent = () => {
 
         </Box>
       </Paper>
-      {/* Notifications */}
-      <Notification open={snackbar.open}
-        message={snackbar.message}
-        severity={snackbar.severity}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        />
     </LocalizationProvider>
   );
 };

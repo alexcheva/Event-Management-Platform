@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import dayjs from "dayjs";
 import {
   Button,
   Table,
@@ -15,24 +16,46 @@ import {
   Container
 } from "@mui/material";
 import API from '../api/api';
-import { Add, Edit, Delete } from "@mui/icons-material";
+import { Visibility, Add, Edit, Delete } from "@mui/icons-material";
 import { globals } from "../utils/globals";
-// import EditModal from "./modals/EditModal";
+import EditModal from "./modals/EditModal";
+import { eventFields } from "../utils/constants";
+// import EventsMasonry from "./EventMasonry";
+
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
 
 export default function AllEvents() {
+  
+  dayjs.extend(customParseFormat);
+  
+  const timeString = "21:28:00";
+  const time = dayjs(timeString, "HH:mm:ss");
+  
+  if (time.isValid()) {
+    console.log("Parsed time:", time.format("h:mm A"));
+    // Output: Parsed time: 21:28:00
+  } else {
+    console.log("Parsed time Invalid Date");
+  }
+  const navigate = useNavigate();
+
+  const handleViewClick = (event_id) => {
+    console.log("handleViewClick event_id",event_id)
+    navigate(`/event/${event_id}`, { state: event_id });
+  };
+  const formatDate = (d) => dayjs(d).format("MMM D, YYYY"); 
+  // Fix time
+  const formatTime = (t) => dayjs(t, "HH:mm:ss").format("h:mm A");
+  console.log(formatTime("17:05:00"));
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  
   console.log("events", events)
-  // const [eventFields, setEventFields] = useState([]);
 
   useEffect(() => {
-    // fetchData()
     fetchEvents();
   }, []);
-
-  // const fetchData = async () => {
-    
-  // }
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -64,7 +87,10 @@ export default function AllEvents() {
               <TableCell sx={{ color: "white" }}>ID</TableCell>
               <TableCell sx={{ color: "white" }}>Event Name</TableCell>
               <TableCell sx={{ color: "white" }}>Event Date</TableCell>
+              <TableCell sx={{ color: "white" }}>Starts</TableCell>
+              <TableCell sx={{ color: "white" }}>Ends</TableCell>
               <TableCell sx={{ color: "white" }}>Location</TableCell>
+              <TableCell sx={{ color: "white" }}>Description</TableCell>
               <TableCell sx={{ color: "white" }}>Price</TableCell>
               <TableCell sx={{ color: "white" }}>Actions</TableCell>
             </TableRow>
@@ -75,9 +101,19 @@ export default function AllEvents() {
                 <TableCell>{event.id}</TableCell>
                 <TableCell>
                   {event.name}
+                  <IconButton color="primary" onClick={() => {
+                    console.log("view details button clicked", event.id);
+                    console.log("selectedEvent", event)
+                    handleViewClick(event.id);
+                    }}>
+                    <Visibility />
+                  </IconButton>
                 </TableCell>
-                <TableCell>{event.date}</TableCell>
+                <TableCell>{formatDate(event.date)}</TableCell>
+                <TableCell>{formatTime(event.start_time)}</TableCell>
+                <TableCell>{formatTime(event.end_time)}</TableCell>
                 <TableCell>{event.location}</TableCell>
+                <TableCell>{event.description}</TableCell>
                 <TableCell>{event.price}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => {
@@ -103,6 +139,15 @@ export default function AllEvents() {
           </TableBody>
         </Table>
       </TableContainer>
+      {/* {events.map((event)  => (<EventPage event={event}/>))} */}
+      
+      {/* {events.map((event)  => ())} */}
+      {/* <EventsMasonry events={events} /> */}
+      {/* <DataGrid
+      rows={events}
+      columns={columns}
+      onRowClick={handleRowClick}
+    /> */}
 
       {events.length === 0 && (
         <Box textAlign="center" mt={3}>
@@ -110,7 +155,7 @@ export default function AllEvents() {
         </Box>
       )}
 
-      {/* 
+      
       {selectedEvent && (
         <EditModal
           isOpen={!!selectedEvent}
@@ -118,10 +163,10 @@ export default function AllEvents() {
           entityName="event"
           data={selectedEvent}
           fields={eventFields}
-          endpoint={endpoint}
+          endpoint={`/events/${selectedEvent.id}`}
           onSave={()=>fetchEvents()}
         />
-      )} */}
+      )}
     </Container>
   );
 }
