@@ -8,12 +8,14 @@ import AllUsers from './components/AllUsers';
 import ShowTickets from './components/ShowTickets';
 import Navbar from './components/Navbar';
 import EventPage from './pages/EventPage';
+import Header from './components/Header';
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Header />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<Dashboard />} />

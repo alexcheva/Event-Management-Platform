@@ -21,10 +21,10 @@ export class Event {
     return result.rows[0];
   }
 
-  static async update(id, { name, date, location, price }) {
+  static async update(id, { name, date, location, price, created_by, description, start_time, end_time }) {
     const result = await pool.query(
-      'UPDATE events SET name=$1, date=$2, location=$3, price=$4 WHERE id=$5 RETURNING *',
-      [name, date, location, price, id]
+      'UPDATE events SET name=$1, date=$2, location=$3, price=$4, created_by=$5, description=$6, start_time=$7, end_time=$8 WHERE id=$9 RETURNING *',
+      [ name, date, location, price, created_by, description, start_time, end_time, id]
     );
     return result.rows[0];
   }

@@ -1,6 +1,7 @@
 # Event Management Platform
 Develop a comprehensive event management system that allows event organizers to create, manage, and promote events while enabling attendees to discover, register for, and participate in events. The system should handle complex event logistics and provide real-time updates.
 
+![eventura_app](./eventura_app.gif)<br />
 ![Registration](./wireframes.png)<br />
 ## Objective
 Create a scalable web application that streamlines the entire event lifecycle from creation to post-event analytics, supporting multiple event types and user roles.
@@ -15,20 +16,21 @@ Create a scalable web application that streamlines the entire event lifecycle fr
 - [ ] Event Creation and Management: 
 Organizers can create events with:
   - [x] detailed information, 
-  - [ ] set ticket types and pricing, 
+  - [x] set ticket types and pricing, 
   - [ ] manage venue details,
   - [ ] create event schedules, and 
   - [ ] handle speaker/performer management
 - [ ] Registration and Ticketing System: 
 Attendees can:
- - [ ] browse events, 
- - [ ] purchase tickets with integrated payment processing,
- - [ ] receive QR code tickets
+ - [x] browse events, 
+ - [x] purchase tickets
+  - [ ] integrated payment processing,
+ - [x] receive QR code tickets
  - [ ] and manage their event registrations
 - [ ] Real-Time Event Updates: 
  - [ ] Live notifications for schedule changes
  - [ ] venue updates, and important announcements with support for 
-   - [ ] push notifications 
+   - [x] push notifications 
    - [ ] email alerts
 - [ ] Check-In and Attendance Tracking: 
   - [ ] QR code scanning system for event entry
@@ -44,7 +46,6 @@ Attendees can:
       - [ ] exportable reports
 
 
-## [Link to a live project.](https://event-management-platform.onrender.com/)
 ## How to initialize and set up:
 ### Prerequisites
 - Node 18+
@@ -76,6 +77,9 @@ npm start
 | **express**        | Lightweight Node.js web framework for building APIs and handling HTTP requests/responses.                                                                                                       |
 | **cors**           | Enables [CORS (Cross-Origin Resource Sharing)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) to allow requests from different origins — essential for frontend–backend communication. |
 | **dotenv**         | Loads environment variables from a `.env` file into `process.env` for secure configuration (e.g., database URLs, API keys).                                                                     |
+| **bycript**         |  Compares pasword to hash |
+| **jsonwebtoken** | Assigns tocken for authentification |
+| **qr_code** | Creates QR code for tickets
 
 ### Development Dependencies
 | Package            | Purpose                                                                                                                                        |
@@ -96,7 +100,6 @@ psql -U insert_your_username -f database_dump.sql
 | -------- | ---------------- | ----------------- |
 |`POST` | `/api/auth/register` | create user (role optional) |
 |`POST` | `/api/auth/login` | returns access + refresh tokens |
-|`POST` | `/api/auth/refresh` | refresh token |
 
 ### Events (organizer & public)
 | Method   | Endpoint         | Description       |
@@ -113,7 +116,6 @@ psql -U insert_your_username -f database_dump.sql
 |`POST` | `/api/events/:id/purchase` | create payment session (Stripe)
 |`POST`|` /api/webhooks/stripe` | handle payment success -> create Ticket, send QR
 |`GET `|`/api/users/:id/tickets` | user tickets
-|`POST`|` /api/tickets/:id/transfer` | optional transfer
 |`GET `|`/api/events/:id/attendees` | organizer-only list
 
 ### Check-in

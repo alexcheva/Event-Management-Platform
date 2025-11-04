@@ -17,7 +17,10 @@ const Navbar = () => {
       <Toolbar>
 
         {/* Logo / Title */}
-        <IconButton color="inherit" onClick={() => navigate("/dashboard")}>
+        <IconButton color="inherit" onClick={() => {
+          user ? navigate("/dashboard") : navigate("/")
+        }
+      }>
           <ConfirmationNumberIcon />
         </IconButton>
 
